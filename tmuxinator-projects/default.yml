@@ -1,0 +1,6 @@
+name: default
+root: ~
+
+startup_window: shell
+windows:
+  - shell:
