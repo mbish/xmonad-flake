@@ -19,13 +19,19 @@
       flake = true;
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixgl = {
+      url = "github:guibou/nixGL";
+    };
   };
 
   outputs = inputs: let
     perSystem = system: let
       pkgs = import inputs.nixpkgs {
         inherit system;
-        overlays = [overlay];
+        overlays = [
+          overlay
+          inputs.nixgl.overlay
+        ];
       };
       utils = pkgs.callPackage ./utils.nix {
         inherit inputs;
@@ -68,7 +74,7 @@
           pkgs.pavucontrol
           pkgs.polybarFull
           pkgs.python3
-          pkgs.qutebrowser
+          utils.qutebrowser
           pkgs.remmina
           pkgs.rofi
           pkgs.systemdMinimal
@@ -83,6 +89,7 @@
           utils.toggle-mic
           utils.toggle-notifications
           utils.toggle-redshift
+          polybar
         ];
       in
         pkgs.xmonad.overrideAttrs (final: prev: {

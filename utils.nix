@@ -25,10 +25,9 @@
   launchTerminal = pkgs.writeShellScriptBin "launchTerminal" ''
     "${termBin} -e ${pkgs.systemdMinimal}/bin/systemd-run --scope --user -q ${tmuxBin} new-session -t default";
   '';
-  consoleStartup =
-    pkgs.writeShellScriptBin "consoleStartup" ''
-      ${termBin} -T main_console -e $SHELL -ic '${pkgs.tmuxinator}/bin/tmuxinator start -p ${./tmuxinator-projects/default.yml}'
-    '';
+  consoleStartup = pkgs.writeShellScriptBin "consoleStartup" ''
+    ${termBin} -T main_console -e $SHELL -ic '${pkgs.tmuxinator}/bin/tmuxinator start -p ${./tmuxinator-projects/default.yml}'
+  '';
   setupScripts = pkgs.writeShellScriptBin "setupScripts" ''
     ${kbdInit}/bin/kdbInit
   '';
@@ -67,4 +66,8 @@
           ${dunstctl} set-paused false
       fi
     '';
+
+  qutebrowser = pkgs.writeShellScriptBin "qutebrowser" ''
+    ${pkgs.nixgl.nixGLIntel}/bin/nixGLIntel ${pkgs.qutebrowser}/bin/qutebrowser "$@"
+  '';
 }
