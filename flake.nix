@@ -21,6 +21,7 @@
     };
     nixgl = {
       url = "github:guibou/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -89,6 +90,8 @@
           utils.toggle-mic
           utils.toggle-notifications
           utils.toggle-redshift
+          utils.rofi
+          utils.keyboard-layout
           polybar
         ];
       in
@@ -103,6 +106,8 @@
             cp ${utils.toggle-backlight}/bin/toggle-backlight $out/bin
             cp ${utils.swap-clipboards}/bin/swap-clipboards $out/bin
             cp ${polybar}/bin/launch-polybar $out/bin
+            cp ${utils.rofi}/bin/rofi $out/bin
+            cp ${utils.keyboard-layout}/bin/keyboard-layout $out/bin
             mv $out/bin/my-xmonad $out/bin/xmonad-${system}
             wrapProgram $out/bin/xmonad-${system} \
               --prefix PATH : ${pkgs.lib.makeBinPath packagesInExe} \

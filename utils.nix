@@ -23,7 +23,7 @@
     ${pkgs.xbindkeys}/bin/xbindkeys -p &
   '';
   launchTerminal = pkgs.writeShellScriptBin "launchTerminal" ''
-    "${termBin} -e ${pkgs.systemdMinimal}/bin/systemd-run --scope --user -q ${tmuxBin} new-session -t default";
+    ${termBin} -e ${pkgs.systemdMinimal}/bin/systemd-run --scope --user -q ${tmuxBin} new-session -t default;
   '';
   consoleStartup = pkgs.writeShellScriptBin "consoleStartup" ''
     ${termBin} -T main_console -e $SHELL -ic '${pkgs.tmuxinator}/bin/tmuxinator start -p ${./tmuxinator-projects/default.yml}'
@@ -69,5 +69,44 @@
 
   qutebrowser = pkgs.writeShellScriptBin "qutebrowser" ''
     ${pkgs.nixgl.nixGLIntel}/bin/nixGLIntel ${pkgs.qutebrowser}/bin/qutebrowser "$@"
+  '';
+
+  rofii = pkgs.rofi.overrideAttrs (final: prev: {
+    nativeBuildInputs =
+      prev.nativeBuildInputs
+      ++ [
+        pkgs.makeWrapper
+      ];
+    postInstall = ''
+      wrapProgram $out/bin/rofi \
+        --prefix PATH : $HOME/bin
+    '';
+  });
+  rofi = pkgs.stdenv.mkDerivation rec {
+    name = "rofi-custom";
+    nativeBuildInputs = [pkgs.makeWrapper];
+    phases = ["installPhase"];
+
+    packagesInExe = [
+      keyboard-layout
+    ];
+
+    installPhase = ''
+      mkdir -p $out/bin
+      cp ${pkgs.rofi}/bin/rofi $out/bin
+      wrapProgram $out/bin/rofi \
+        --prefix PATH : ${pkgs.lib.makeBinPath packagesInExe}
+    '';
+  };
+  keyboard-layout = pkgs.writeShellScriptBin "keyboard-layout" ''
+    if [ -z $1 ]; then
+        LAYOUT="us"
+    else
+        LAYOUT="$1"
+    fi
+    ${pkgs.xorg.xmodmap}/bin/xmodmap ${./xmodmap}
+    ${pkgs.xorg.setxkbmap}/bin/setxkbmap -layout us -variant altgr-intl -option "lv3:bksl_switch"
+    ${pkgs.xorg.xmodmap}/bin/xmodmap ${./xmodmap}
+    ${pkgs.systemdMinimal}/bin/systemctl --user restart xcape &
   '';
 }
