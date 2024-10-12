@@ -459,6 +459,12 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
       ((modm, xK_z), spawn swapClipboards),
       ((modm, xK_o), browserKey controlMask xK_t),
       ((0, xK_F1), spawn toggleMic),
+      ((0, xF86XK_AudioMicMute), spawn toggleMic),
+      ((0, xK_Pause), spawn increaseVolume),
+      ((0, xK_Scroll_Lock), spawn decreaseVolume),
+      ((0, xF86XK_AudioRaiseVolume), spawn increaseVolume),
+      ((0, xF86XK_AudioLowerVolume), spawn decreaseVolume),
+      ((0, xF86XK_AudioMute), spawn muteVolume),
       ((controlMask, xK_space), spawn notificationClose),
       ((controlMask, xK_grave), spawn notificationHistory)
     ]
@@ -673,7 +679,8 @@ main = do
                 spawn customMail
                 spawn setupScripts
                 spawn wifiApplet
-                spawn autolock
+                -- for some reason this doesn't work. Using systemd service for now
+                -- spawn autolock
                 onScreen' (switchProject $ projectByName "sms") FocusNew 0
                 onScreen' (switchProject $ projectByName "browser") FocusNew 0
                 onScreen' (switchProject $ projectByName "console") FocusNew 0,

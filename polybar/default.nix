@@ -27,8 +27,6 @@
         cp rendered_file $out
       '';
     };
-  mic = "alsa_input.usb-Blue_Microphones_Yeti_Stereo_Microphone_TS_2018_10_13_53845-00.analog-stereo";
-  speakers = "alsa_output.usb-Lenovo_ThinkPad_Thunderbolt_3_Dock_USB_Audio_000000000000-00.analog-stereo";
   notification-status = pkgs.writeShellScriptBin "notification-status" ''
     if [ $(${pkgs.dunst}/bin/dunstctl is-paused) == "true" ]; then
         echo "%{F#fb4934}%{u-}"
@@ -36,21 +34,17 @@
         echo ""
     fi
   '';
-  toggle-mic = pkgs.writeShellScriptBin "toggle-mic" ''
-    ${pkgs.pulseaudio}/bin/pactl set-source-mute "${mic}" toggle
-  '';
   systemctl = "${pkgs.systemdMinimal}/bin/systemctl";
   toggle-redshift = pkgs.writeShellScriptBin "toggle-redshift" ''
     #!/bin/env bash
     (${systemctl} --user is-active redshift && ${systemctl} --user stop redshift) || (${systemctl} --user start redshift)
   '';
   polybar-config = templateFile "config.ini" ./config.ini {
-    inherit speakers;
     inherit (utils) toggle-notifications;
     xmonad-log = "${pkgs.xmonad-log}/bin/xmonad-log";
     notification-status = "${notification-status}/bin/notification-status";
     mic-status = "${utils.mic-status}/bin/mic-status";
-    toggle-mic = "${toggle-mic}/bin/toggle-mic";
+    toggle-mic = "${utils.toggle-mic}/bin/toggle-mic";
     toggle-redshift = "${toggle-redshift}/bin/toggle-redshift";
     sensor-path = "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp2_input";
   };

@@ -2,7 +2,6 @@
   pkgs,
   inputs,
   system,
-  vars,
   ...
 }: rec {
   termBin = "${inputs.st.packages.${system}.default}/bin/st";
@@ -32,7 +31,7 @@
     ${kbdInit}/bin/kbdInit
   '';
   toggle-mic = pkgs.writeShellScriptBin "toggle-mic" ''
-    ${pkgs.pulseaudio}/bin/pactl set-source-mute "${vars.mic}" toggle
+    ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
   '';
   toggle-backlight = let
     xbacklight = "${pkgs.xorg.xbacklight}/bin/xbacklight";
@@ -109,10 +108,9 @@
     ${pkgs.xorg.xmodmap}/bin/xmodmap ${./xmodmap}
     ${pkgs.systemdMinimal}/bin/systemctl --user restart xcape &
   '';
-  mic = "alsa_input.usb-Blue_Microphones_Yeti_Stereo_Microphone_TS_2018_10_13_53845-00.analog-stereo";
   mic-status = pkgs.writeShellScriptBin "mic-status" ''
-    MUTED=$(${pkgs.pulseaudio}/bin/pactl get-source-mute "${mic}" 2>/dev/null| cut -f2 -d' ')
-    if [ "$MUTED" == "yes" ]; then
+    MUTED=$(${pkgs.wireplumber}/bin/wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | grep "MUTED")
+    if [ $? -eq 0 ]; then
         echo "%{F#fb4934}%{u-}"
     else
         echo ""

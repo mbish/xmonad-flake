@@ -91,4 +91,8 @@ notificationClose = "dunstctl close"
 notificationHistory = "dunstctl history-pop"
 
 launchBar = "launch-polybar"
-autolock = "xautolock -time 5 -locker " ++ screenLocker
+autolock = "xautolock -time 5 -locker " ++ screenLocker ++ " &"
+
+increaseVolume = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%+"
+decreaseVolume = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%-"
+muteVolume = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"

@@ -36,9 +36,6 @@
       };
       utils = pkgs.callPackage ./utils.nix {
         inherit inputs;
-        vars = {
-          mic = "alsa_input.usb-Blue_Microphones_Yeti_Stereo_Microphone_TS_2018_10_13_53845-00.analog-stereo";
-        };
       };
       xmonadBuildScript = pkgs.writeShellScriptBin ''
         install -m 755 $out/bin/xmonad ~/.xmonad
