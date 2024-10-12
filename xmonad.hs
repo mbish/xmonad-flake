@@ -666,12 +666,14 @@ main = do
               handleEventHook = docksEventHook <+> serverModeEventHook,
               workspaces = ["browser", "console", "socialChat", "workChat", "mail", "sms"],
               startupHook = do
-                spawn setupScripts
                 spawn launchBar
                 onScreen' (switchProject $ projectByName "browser") FocusNew 0
                 spawn socialChat
                 spawn workChat
                 spawn customMail
+                spawn setupScripts
+                spawn wifiApplet
+                spawn autolock
                 onScreen' (switchProject $ projectByName "sms") FocusNew 0
                 onScreen' (switchProject $ projectByName "browser") FocusNew 0
                 onScreen' (switchProject $ projectByName "console") FocusNew 0,

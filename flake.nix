@@ -57,7 +57,7 @@
           };
         xmonad = final.haskell.lib.compose.justStaticExecutables final.haskellPackages.my-xmonad;
       };
-      polybar = pkgs.callPackage ./polybar {inherit inputs;};
+      polybar = pkgs.callPackage ./polybar {inherit inputs utils;};
     in {
       packages = {
         test = utils.consoleStartup;
@@ -75,7 +75,10 @@
           pkgs.pavucontrol
           pkgs.polybarFull
           pkgs.python3
+          pkgs.slock
+          pkgs.xautolock
           utils.qutebrowser
+          utils.brightnessChange
           pkgs.remmina
           pkgs.rofi
           pkgs.systemdMinimal
@@ -105,9 +108,11 @@
             cp ${utils.toggle-notifications}/bin/toggle-notifications $out/bin
             cp ${utils.toggle-backlight}/bin/toggle-backlight $out/bin
             cp ${utils.swap-clipboards}/bin/swap-clipboards $out/bin
+            cp ${utils.brightnessChange}/bin/brightness-change $out/bin
             cp ${polybar}/bin/launch-polybar $out/bin
             cp ${utils.rofi}/bin/rofi $out/bin
             cp ${utils.keyboard-layout}/bin/keyboard-layout $out/bin
+            cp ${utils.mic-status}/bin/mic-status $out/bin;
             mv $out/bin/my-xmonad $out/bin/xmonad-${system}
             wrapProgram $out/bin/xmonad-${system} \
               --prefix PATH : ${pkgs.lib.makeBinPath packagesInExe} \

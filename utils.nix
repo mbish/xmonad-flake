@@ -29,7 +29,7 @@
     ${termBin} -T main_console -e $SHELL -ic '${pkgs.tmuxinator}/bin/tmuxinator start -p ${./tmuxinator-projects/default.yml}'
   '';
   setupScripts = pkgs.writeShellScriptBin "setupScripts" ''
-    ${kbdInit}/bin/kdbInit
+    ${kbdInit}/bin/kbdInit
   '';
   toggle-mic = pkgs.writeShellScriptBin "toggle-mic" ''
     ${pkgs.pulseaudio}/bin/pactl set-source-mute "${vars.mic}" toggle
@@ -108,5 +108,28 @@
     ${pkgs.xorg.setxkbmap}/bin/setxkbmap -layout us -variant altgr-intl -option "lv3:bksl_switch"
     ${pkgs.xorg.xmodmap}/bin/xmodmap ${./xmodmap}
     ${pkgs.systemdMinimal}/bin/systemctl --user restart xcape &
+  '';
+  mic = "alsa_input.usb-Blue_Microphones_Yeti_Stereo_Microphone_TS_2018_10_13_53845-00.analog-stereo";
+  mic-status = pkgs.writeShellScriptBin "mic-status" ''
+    MUTED=$(${pkgs.pulseaudio}/bin/pactl get-source-mute "${mic}" 2>/dev/null| cut -f2 -d' ')
+    if [ "$MUTED" == "yes" ]; then
+        echo "%{F#fb4934}%{u-}"
+    else
+        echo ""
+    fi
+  '';
+  brightnessChange = pkgs.writeShellScriptBin "brightness-change" ''
+    dir_files=(/sys/class/backlight/*)
+    if [[ "''${#dir_files[@]}" -gt 1 ]] ; then
+       #More than 4 files
+       exit 1
+    elif [[ -e "''${dir_files[0]}" ]] ; then
+       #non-empty
+      VALUE=$(cat /sys/class/backlight/*/brightness | head -n 1)
+      NEW_VALUE=$(bc <<< "$VALUE$1")
+      echo $NEW_VALUE > /sys/class/backlight/*/brightness
+    else
+       exit 1
+    fi
   '';
 }

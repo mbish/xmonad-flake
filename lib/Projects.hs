@@ -39,6 +39,8 @@ customCalculator = "gnome-calculator"
 customMail = "thunderbird"
 customMailClass = "thunderbird"
 
+wifiApplet = "nm-applet"
+
 customTmux = "tmux"
 customTmuxinator = "tmuxinator";
 
@@ -57,14 +59,15 @@ addTodolistItem homeDir pr = homeDir ++ "/bin/todoist-add.sh '" ++ pr ++ "'"
 
 toggleBar = "polybar-msg cmd toggle"
 
-increaseBacklight = "xbacklight -inc 10"
-decreaseBacklight = "xbacklight -dec 10"
+increaseBacklight = "brightness-change +50"
+decreaseBacklight = "brightness-change -50"
 
 customRunDialog = "rofi -show combi -modes combi -matching fuzzy -combi-modes \"run,window\""
 windowSelect = "rofi -show window"
 
 toggleRedshift = "toggle-redshift"
-lockScreen = "xlock"
+screenLocker = "slock"
+lockScreen = "xautolock -locknow"
 
 customSleep = "systemctl suspend";
 toggleMedia homeDir = homeDir ++ "/bin/toggle_media"
@@ -88,3 +91,4 @@ notificationClose = "dunstctl close"
 notificationHistory = "dunstctl history-pop"
 
 launchBar = "launch-polybar"
+autolock = "xautolock -time 5 -locker " ++ screenLocker

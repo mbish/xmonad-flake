@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-XMONAD_DIR=~/workspace/personal/environment-flakes/xmonad
-(nix build $XMONAD_DIR && install -m 755 ~/.xmonad/result/bin/xmonad-x86_64-linux ~/.xmonad)
+XMONAD_DIR=/home/markbish/environment/xmonad-flake
+(nix build $XMONAD_DIR && install -m 755 $XMONAD_DIR/result/bin/xmonad-x86_64-linux ~/.xmonad)
