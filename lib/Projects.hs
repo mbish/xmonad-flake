@@ -67,7 +67,8 @@ windowSelect = "rofi -show window"
 
 toggleRedshift = "toggle-redshift"
 screenLocker = "slock"
-lockScreen = "xautolock -locknow"
+lockScreen = screenLocker
+-- lockScreen = "xautolock -locknow"
 
 customSleep = "systemctl suspend";
 toggleMedia homeDir = homeDir ++ "/bin/toggle_media"

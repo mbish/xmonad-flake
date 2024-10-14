@@ -72,7 +72,6 @@
           pkgs.pavucontrol
           pkgs.polybarFull
           pkgs.python3
-          pkgs.slock
           pkgs.xautolock
           utils.qutebrowser
           utils.brightnessChange
@@ -81,6 +80,7 @@
           pkgs.systemdMinimal
           pkgs.thunderbird
           pkgs.tmuxinator
+          pkgs.procps
           pkgs.xorg.xbacklight
           utils.consoleStartup
           utils.launchTerminal

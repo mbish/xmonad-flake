@@ -55,7 +55,7 @@
 in
   pkgs.writeShellScriptBin "launch-polybar" ''
     # Terminate already running bar instances
-    killall -q polybar
+    pkill -f /bin/polybar
 
     # wait until the processes have been shut down
     while ${pkgs.toybox}/bin/pgrep -x polybar >/dev/null; do sleep 1; done
