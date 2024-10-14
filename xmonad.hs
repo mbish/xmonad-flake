@@ -329,7 +329,9 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
           [ ((0, xK_r), spawn toggleRedshift),
             ((modm, xK_r), spawn toggleRedshift),
             ((0, xK_x), spawn toggleBar),
-            ((modm, xK_x), spawn toggleBar)
+            ((modm, xK_x), spawn toggleBar),
+            ((0, xK_e), swapNextScreen),
+            ((modm, xK_e), swapNextScreen)
           ]
       ),
       ( (modm, xK_m),
