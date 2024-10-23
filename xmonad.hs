@@ -324,6 +324,7 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
             ((modm, xK_m), switchProject $ projectByName "mail")
           ]
       ),
+      ( (modm, xK_bracketleft), spawn tmuxSessionSelect),
       ( (modm, xK_e),
         submap . M.fromList $
           [ ((0, xK_r), spawn toggleRedshift),

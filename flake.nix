@@ -63,12 +63,12 @@
         packagesInExe = [
           inputs.st.packages.${system}.default
           inputs.tmux.packages.${system}.default
+          pkgs.findutils
           pkgs.anki
           pkgs.dunst
           pkgs.gimp
           pkgs.glibcLocales
           pkgs.nodejs_22
-          pkgs.obs-studio
           pkgs.pavucontrol
           pkgs.polybarFull
           pkgs.python3

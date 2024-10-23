@@ -65,6 +65,8 @@ decreaseBacklight = "brightness-change -50"
 customRunDialog = "rofi -show combi -modes combi -matching fuzzy -combi-modes \"run,window\""
 windowSelect = "rofi -show window"
 
+tmuxSessionSelect = "tmux list-sessions -F \"#S\" | rofi -dmenu -mesg \"tmux session\" | xargs -I {} tmux switch -t {}"
+
 toggleRedshift = "toggle-redshift"
 screenLocker = "slock"
 lockScreen = screenLocker

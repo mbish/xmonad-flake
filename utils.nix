@@ -17,8 +17,8 @@
     ${pkgs.xorg.setxkbmap}/bin/setxkbmap -layout us -variant altgr-intl -option "lv3:bksl_switch"
     ${pkgs.xorg.xmodmap}/bin/xmodmap ${./xmodmap}
     ${pkgs.procps}/bin/pkill -f xcape
-    ${pkgs.xcape}/bin/xcape -e "ISO_Level3_Shift=backslash"
-    ${pkgs.xcape}/bin/xcape -e "Control_L=return"
+    # ${pkgs.xcape}/bin/xcape -e "ISO_Level3_Shift=backslash"
+    # ${pkgs.xcape}/bin/xcape -e "Control_L=return"
     ${pkgs.xbindkeys}/bin/xbindkeys -p &
   '';
   launchTerminal = pkgs.writeShellScriptBin "launchTerminal" ''
