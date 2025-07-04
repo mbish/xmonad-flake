@@ -48,7 +48,13 @@
     toggle-redshift = "${toggle-redshift}/bin/toggle-redshift";
     sensor-path = "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp2_input";
   };
-  fonts = [pkgs.unifont "${pkgs.liberation_ttf}/share/fonts" pkgs.nerdfonts "${pkgs.dejavu_fonts}/share/fonts" "${pkgs.noto-fonts}/share/fonts"];
+  fonts = [
+    pkgs.unifont 
+    "${pkgs.liberation_ttf}/share/fonts" 
+    (builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts))
+    "${pkgs.dejavu_fonts}/share/fonts" 
+    "${pkgs.noto-fonts}/share/fonts"
+  ];
   font_config = pkgs.makeFontsConf {
     fontDirectories = fonts;
   };
