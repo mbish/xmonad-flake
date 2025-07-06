@@ -264,11 +264,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1751665437,
-        "narHash": "sha256-GTQ8iRWSuG0Iz6whhluiclkw01pMlky9qK67ce1WzhI=",
+        "lastModified": 1751766957,
+        "narHash": "sha256-TZ/XXXeSfp77aMImEWt32bzyyEnNYcfT2Y/C41OyY5Q=",
         "owner": "mbish",
         "repo": "st-flake",
-        "rev": "74ae3559f0333a37c8baa1c0c219ffcdafcfa582",
+        "rev": "10a5ad1d5749522c2db7de353bea08ce9ababcf0",
         "type": "github"
       },
       "original": {
