@@ -99,3 +99,8 @@ autolock = "xautolock -time 5 -locker " ++ screenLocker ++ " &"
 increaseVolume = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%+"
 decreaseVolume = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%-"
 muteVolume = "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+
+screenShotDaemon = "flameshot"
+screenShot = "flameshot gui"
+
+openClipboardURL = "xclip -o -selection primary | xargs -I '{}' google-chrome-stable {}"
