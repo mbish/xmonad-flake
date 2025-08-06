@@ -62,25 +62,22 @@ in
   pkgs.writeShellScriptBin "launch-polybar" ''
     # Terminate already running bar instances
     pkill -f /bin/polybar
-    HOME_MONITOR="ignore"
-    # HOME_MONITOR="rdCR.TviP5u9_Jd3"
-    WORK_MONITOR="rdCR._BWrUmlFIx9"
-    MONITORS=$(${pkgs.hwinfo}/bin/hwinfo --monitor | grep "Unique ID" | cut -f2 -d':' | tr -d ' ' | sort)
-    echo $MONITORS
 
     # wait until the processes have been shut down
     while ${pkgs.toybox}/bin/pgrep -x polybar >/dev/null; do sleep 1; done
+    echo ${pkgs.dejavu_fonts}
+    echo ${pkgs.noto-fonts}
 
-    echo "$MONITORS" | grep "$HOME_MONITOR" >/dev/null
-    if [ $? -eq 0 ]; then
-        FONTCONFIG_FILE=${font_config} ${pkgs.polybarFull}/bin/polybar -c ${polybar-config} home &
-    else
-      echo "$MONITORS" | grep "$WORK_MONITOR" >/dev/null
-      if [ $? -eq 0 ]; then
-          FONTCONFIG_FILE=${font_config} ${pkgs.polybarFull}/bin/polybar -c ${polybar-config} work &
+    # launch polybar
+    if [ ''${#@} -eq 0 ]; then
+      MONITORS=$(${pkgs.xorg.xrandr}/bin/xrandr --listactivemonitors|head -n1|cut -f2 -d' ')
+      if [ "$MONITORS" = "1" ]; then
+          FONTCONFIG_FILE=${font_config} ${pkgs.polybarFull}/bin/polybar -c ${polybar-config} laptop &
       else
-        FONTCONFIG_FILE=${font_config} ${pkgs.polybarFull}/bin/polybar -c ${polybar-config} ''${1:-laptop} &
+          FONTCONFIG_FILE=${font_config} ${pkgs.polybarFull}/bin/polybar -c ${polybar-config} desktop &
       fi
+    else
+      FONTCONFIG_FILE=${font_config} ${pkgs.polybarFull}/bin/polybar -c ${polybar-config} $@ &
     fi
     echo "Bars launched..."
   ''
