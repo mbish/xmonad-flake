@@ -274,11 +274,11 @@
         "zsh-notify": "zsh-notify"
       },
       "locked": {
-        "lastModified": 1741790544,
-        "narHash": "sha256-Zap04NnZY9z2HgMQ9srOv7odmhEthwv/5FY/0ljDc7A=",
+        "lastModified": 1754965894,
+        "narHash": "sha256-Ni2hsmoBlfgtJ/aq2+xBAv8VwztTQ5jMgWv85YsVsjo=",
         "owner": "mbish",
         "repo": "zsh-flake",
-        "rev": "dea0b39d3218251ce18dcb460d7071f6215c93f2",
+        "rev": "e0f7b8a34c46831f8ad66e2e290f96952a788e35",
         "type": "github"
       },
       "original": {
