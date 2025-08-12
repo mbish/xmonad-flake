@@ -472,6 +472,7 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
       ((0, xF86XK_AudioRaiseVolume), spawn increaseVolume),
       ((0, xF86XK_AudioLowerVolume), spawn decreaseVolume),
       ((0, xF86XK_AudioMute), spawn muteVolume),
+      ((0, xK_Print), spawn screenShot),
       ((controlMask, xK_F1), spawn muteVolume),
       ((controlMask, xK_space), spawn notificationClose),
       ((controlMask, xK_grave), spawn notificationHistory)
@@ -687,6 +688,7 @@ main = do
                 spawn customMail
                 spawn setupScripts
                 spawn wifiApplet
+                spawn screenShotDaemon
                 -- for some reason this doesn't work. Using systemd service for now
                 -- spawn autolock
                 onScreen' (switchProject $ projectByName "sms") FocusNew 0

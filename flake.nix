@@ -78,7 +78,6 @@
           pkgs.python3
           pkgs.xautolock
           utils.qutebrowser
-          utils.brightnessChange
           pkgs.remmina
           pkgs.rofi
           pkgs.systemdMinimal
@@ -96,6 +95,7 @@
           utils.toggle-redshift
           utils.rofi
           utils.keyboard-layout
+          pkgs.light
           polybar
         ];
       in
@@ -109,7 +109,6 @@
             cp ${utils.toggle-notifications}/bin/toggle-notifications $out/bin
             cp ${utils.toggle-backlight}/bin/toggle-backlight $out/bin
             cp ${utils.swap-clipboards}/bin/swap-clipboards $out/bin
-            cp ${utils.brightnessChange}/bin/brightness-change $out/bin
             cp ${polybar}/bin/launch-polybar $out/bin
             cp ${utils.rofi}/bin/rofi $out/bin
             cp ${utils.keyboard-layout}/bin/keyboard-layout $out/bin

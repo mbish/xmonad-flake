@@ -34,15 +34,13 @@
     ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
   '';
   toggle-backlight = let
-    xbacklight = "${pkgs.xorg.xbacklight}/bin/xbacklight";
+    light = "${pkgs.light}/bin/light";
   in
     pkgs.writeShellScriptBin "toggle-backlight" ''
-      PERCENT=`${xbacklight} -get`
-
       if [ "$PERCENT" -ne 0 ]; then
-          ${xbacklight} -set 0 -steps 10
+          ${light} -S 0
       else
-          ${xbacklight} -set 50 -steps 10
+          ${light} -S 30
       fi
     '';
   swap-clipboards = let
@@ -114,20 +112,6 @@
         echo "%{F#fb4934}%{u-}"
     else
         echo ""
-    fi
-  '';
-  brightnessChange = pkgs.writeShellScriptBin "brightness-change" ''
-    dir_files=(/sys/class/backlight/*)
-    if [[ "''${#dir_files[@]}" -gt 1 ]] ; then
-       #More than 4 files
-       exit 1
-    elif [[ -e "''${dir_files[0]}" ]] ; then
-       #non-empty
-      VALUE=$(cat /sys/class/backlight/*/brightness | head -n 1)
-      NEW_VALUE=$(bc <<< "$VALUE$1")
-      echo $NEW_VALUE > /sys/class/backlight/*/brightness
-    else
-       exit 1
     fi
   '';
 }
