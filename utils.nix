@@ -3,12 +3,14 @@
   inputs,
   system,
   ...
-}: rec {
+}:
+rec {
   termBin = "${inputs.st.packages.${system}.default}/bin/st";
   tmuxBin = "${inputs.tmux.packages.${system}.default}/bin/tmux";
-  toggle-redshift = let
-    systemctl = "${pkgs.systemdMinimal}/bin/systemctl";
-  in
+  toggle-redshift =
+    let
+      systemctl = "${pkgs.systemdMinimal}/bin/systemctl";
+    in
     pkgs.writeShellScriptBin "toggle-redshift" ''
       (${systemctl} --user is-active redshift && ${systemctl} --user stop redshift) || (${systemctl} --user start redshift)
     '';
@@ -33,19 +35,22 @@
   toggle-mic = pkgs.writeShellScriptBin "toggle-mic" ''
     ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
   '';
-  toggle-backlight = let
-    light = "${pkgs.light}/bin/light";
-  in
+  toggle-backlight =
+    let
+      light = "${pkgs.light}/bin/light";
+    in
     pkgs.writeShellScriptBin "toggle-backlight" ''
-      if [ "$PERCENT" -ne 0 ]; then
+      PERCENT=$(${light} -G)
+      if [ "$PERCENT" != "0.00" ]; then
           ${light} -S 0
       else
           ${light} -S 30
       fi
     '';
-  swap-clipboards = let
-    xclip = "${pkgs.xclip}/bin/xclip";
-  in
+  swap-clipboards =
+    let
+      xclip = "${pkgs.xclip}/bin/xclip";
+    in
     pkgs.writeShellScriptBin "swap-clipboards" ''
       OLD_PRIMARY="`${xclip} -selection PRIMARY -o`"
       OLD_CLIPBOARD="`${xclip} -selection CLIPBOARD -o`"
@@ -53,9 +58,10 @@
       echo -n "$OLD_CLIPBOARD" | ${xclip} -selection PRIMARY -i
       ${tmuxBin} set-buffer "$OLD_PRIMARY"
     '';
-  toggle-notifications = let
-    dunstctl = "${pkgs.dunst}/bin/dunstctl";
-  in
+  toggle-notifications =
+    let
+      dunstctl = "${pkgs.dunst}/bin/dunstctl";
+    in
     pkgs.writeShellScriptBin "toggle-notifications" ''
       if [ "$(${dunstctl} is-paused)" == "false" ]; then
           ${dunstctl} set-paused true
@@ -68,21 +74,21 @@
     ${pkgs.nixgl.nixGLIntel}/bin/nixGLIntel ${pkgs.qutebrowser}/bin/qutebrowser "$@"
   '';
 
-  rofii = pkgs.rofi.overrideAttrs (final: prev: {
-    nativeBuildInputs =
-      prev.nativeBuildInputs
-      ++ [
+  rofii = pkgs.rofi.overrideAttrs (
+    final: prev: {
+      nativeBuildInputs = prev.nativeBuildInputs ++ [
         pkgs.makeWrapper
       ];
-    postInstall = ''
-      wrapProgram $out/bin/rofi \
-        --prefix PATH : $HOME/bin
-    '';
-  });
+      postInstall = ''
+        wrapProgram $out/bin/rofi \
+          --prefix PATH : $HOME/bin
+      '';
+    }
+  );
   rofi = pkgs.stdenv.mkDerivation rec {
     name = "rofi-custom";
-    nativeBuildInputs = [pkgs.makeWrapper];
-    phases = ["installPhase"];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+    phases = [ "installPhase" ];
 
     packagesInExe = [
       keyboard-layout
@@ -113,5 +119,8 @@
     else
         echo ""
     fi
+  '';
+  toggle-noise = pkgs.writeShellScriptBin "toggle-noise" ''
+    systemctl --user is-active --quiet noise && systemctl --user stop noise || systemctl --user start noise
   '';
 }

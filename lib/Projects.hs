@@ -104,3 +104,5 @@ screenShotDaemon = "flameshot"
 screenShot = "flameshot gui"
 
 openClipboardURL = "xclip -o -selection primary | xargs -I '{}' google-chrome-stable {}"
+
+toggleNoise =  "toggle-noise"

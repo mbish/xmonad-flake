@@ -386,7 +386,9 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
             ((0, xK_n), spawn customToggleNotifications),
             ((modm, xK_n), spawn customToggleNotifications),
             ((0, xK_b), spawn toggleBacklight),
-            ((modm, xK_b), spawn toggleBacklight)
+            ((modm, xK_b), spawn toggleBacklight),
+            ((0, xK_o), spawn toggleNoise),
+            ((modm, xK_o), spawn toggleNoise)
           ]
       ),
       ( (modm, xK_a),
