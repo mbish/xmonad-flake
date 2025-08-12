@@ -388,7 +388,8 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
             ((0, xK_b), spawn toggleBacklight),
             ((modm, xK_b), spawn toggleBacklight),
             ((0, xK_o), spawn toggleNoise),
-            ((modm, xK_o), spawn toggleNoise)
+            ((modm, xK_o), spawn toggleNoise),
+          ( (0, xK_u), spawn openClipboardURL)
           ]
       ),
       ( (modm, xK_a),
@@ -437,10 +438,6 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
             ),
             ((modm, xK_d), todoPrompt mPrompt)
           ]
-      ),
-      ( (modm, xK_t),
-        submap . M.fromList $
-          [ ( (0, xK_u), spawn openClipboardURL)]
       ),
       ((modm, xK_k), namedScratchpadAction scratchpads "PopupBrowser"),
       ( (modm, xK_g),
