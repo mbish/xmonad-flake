@@ -6,20 +6,21 @@
 {-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE TypeOperators #-}
 
-import qualified Codec.Binary.UTF8.String as UTF8
+import Codec.Binary.UTF8.String qualified as UTF8
 import Control.Concurrent
 import Control.Monad
-import qualified DBus as D
-import Options.Applicative
-import qualified DBus.Client as D
+import DBus qualified as D
+import DBus.Client qualified as D
 import Data.Default
 import Data.List
 import Data.List.Split
-import Data.Text (replace, pack, unpack)
-import qualified Data.Map as M
+import Data.Map qualified as M
+import Data.Text (pack, replace, unpack)
 import Data.Time.Format
 import Data.Time.LocalTime
 import Graphics.X11.ExtraTypes.XF86
+import Options.Applicative
+import Projects
 import System.Directory
 import System.Exit
 import System.IO
@@ -48,10 +49,9 @@ import XMonad.Layout.Tabbed
 import XMonad.Prompt
 import XMonad.Prompt.AppendFile
 import XMonad.Prompt.Shell
-import qualified XMonad.StackSet as W
+import XMonad.StackSet qualified as W
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Paste as P
-import Projects
 
 data Options = Options
   { configFile :: FilePath,
@@ -196,8 +196,7 @@ projects =
 
 scratchpads :: [NamedScratchpad]
 scratchpads =
-  [ 
-    NS "Calculator" customCalculator (title =? "Calculator") (customFloating $ W.RationalRect 0.25 0.25 0.5 0.5),
+  [ NS "Calculator" customCalculator (title =? "Calculator") (customFloating $ W.RationalRect 0.25 0.25 0.5 0.5),
     NS "PythonInterpreter" (popupTerm "pythoninterp" customPython) (title =? "pythoninterp") (customFloating $ W.RationalRect 0.25 0.25 0.5 0.5),
     NS "NodeInterpreter" (popupTerm "nodeinterp" customNode) (title =? "nodeinterp") (customFloating $ W.RationalRect 0.25 0.25 0.5 0.5),
     NS "HaskellInterpreter" (popupTerm "haskellinterp" customGHCI) (title =? "haskellinterp") (customFloating $ W.RationalRect 0.25 0.25 0.5 0.5),
@@ -221,7 +220,7 @@ mPrompt =
     }
 
 tmuxinatorProjects :: IO [FilePath]
-tmuxinatorProjects = do 
+tmuxinatorProjects = do
   configDir <- getXdgDirectory XdgConfig "tmuxinator"
   System.Directory.listDirectory configDir
 
@@ -238,7 +237,7 @@ muxPrompt c = do
   mkXPrompt MuxPrompt c (mkComplFunFromList' c (map (\x -> head $ splitOn "." x) mc)) mux
 
 mux :: [Char] -> X ()
-mux = (spawn . tmuxinatorCommand)
+mux = spawn . tmuxinatorCommand
 
 data TodoPrompt = TodoPrompt
 
@@ -253,7 +252,7 @@ todoPrompt c = do
   homeDir <- liftIO $ getHomeDirectory
   mkXPrompt TodoPrompt c (mkComplFunFromList c []) (todo homeDir)
 
-todo homeDir = (spawn . (addTodolistItem homeDir))
+todo homeDir = spawn . addTodolistItem homeDir
 
 projectByName :: ProjectName -> Project
 projectByName n = head $ (filter $ (== n) . projectName) projects
@@ -292,7 +291,7 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
       ((modm, xK_c), switchProject $ projectByName "console"),
       ((modm, xK_l), switchProject $ projectByName "workChat"),
       ((modm, xK_2), switchProject $ projectByName "dev-2"),
-      ((modm, xK_Left),  sendMessage Shrink),
+      ((modm, xK_Left), sendMessage Shrink),
       ((modm, xK_Right), sendMessage Expand),
       ( (modm, xK_w),
         submap . M.fromList $
@@ -324,7 +323,7 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
             ((modm, xK_m), switchProject $ projectByName "mail")
           ]
       ),
-      ( (modm, xK_bracketleft), spawn tmuxSessionSelect),
+      ((modm, xK_bracketleft), spawn tmuxSessionSelect),
       ( (modm, xK_e),
         submap . M.fromList $
           [ ((0, xK_r), spawn toggleRedshift),
@@ -347,29 +346,35 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
             ),
             ((0, xK_s), spawn customSleep),
             ((modm, xK_s), spawn customSleep),
-            ((0, xK_a), do
-              homeDir <- liftIO $ getHomeDirectory
-              spawn (screenAttach homeDir)
+            ( (0, xK_a),
+              do
+                homeDir <- liftIO $ getHomeDirectory
+                spawn (screenAttach homeDir)
             ),
-            ((modm, xK_a), do
-              homeDir <- liftIO $ getHomeDirectory
-              spawn (screenAttach homeDir)
+            ( (modm, xK_a),
+              do
+                homeDir <- liftIO $ getHomeDirectory
+                spawn (screenAttach homeDir)
             ),
-            ((0, xK_d), do 
-              homeDir <- liftIO $ getHomeDirectory
-              spawn (screenDetach homeDir)
+            ( (0, xK_d),
+              do
+                homeDir <- liftIO $ getHomeDirectory
+                spawn (screenDetach homeDir)
             ),
-            ((modm, xK_d), do 
-              homeDir <- liftIO $ getHomeDirectory
-              spawn (screenDetach homeDir)
+            ( (modm, xK_d),
+              do
+                homeDir <- liftIO $ getHomeDirectory
+                spawn (screenDetach homeDir)
             ),
-            ((0, xK_m), do 
-              homeDir <- liftIO $ getHomeDirectory
-              spawn (toggleMedia homeDir)
+            ( (0, xK_m),
+              do
+                homeDir <- liftIO $ getHomeDirectory
+                spawn (toggleMedia homeDir)
             ),
-            ((modm, xK_m), do 
-              homeDir <- liftIO $ getHomeDirectory
-              spawn (toggleMedia homeDir)
+            ( (modm, xK_m),
+              do
+                homeDir <- liftIO $ getHomeDirectory
+                spawn (toggleMedia homeDir)
             ),
             ((0, xK_i), spawn toggleMic),
             ((modm, xK_i), spawn toggleMic)
@@ -389,52 +394,52 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
             ((modm, xK_b), spawn toggleBacklight),
             ((0, xK_o), spawn toggleNoise),
             ((modm, xK_o), spawn toggleNoise),
-          ( (0, xK_u), spawn openClipboardURL)
+            ((0, xK_u), spawn openClipboardURL)
           ]
       ),
       ( (modm, xK_a),
         submap . M.fromList $
           [ ( (0, xK_i),
               do
-                homeDir <- liftIO $ getHomeDirectory
-                date <- io $ liftM (formatTime defaultTimeLocale "[%Y-%m-%d %H:%M] ") getZonedTime
-                appendFilePrompt' def (date ++) $ (improvementsFile homeDir)
+                homeDir <- liftIO getHomeDirectory
+                date <- io $ fmap (formatTime defaultTimeLocale "[%Y-%m-%d %H:%M] ") getZonedTime
+                appendFilePrompt' def (date ++) $ improvementsFile homeDir
             ),
             ( (modm, xK_i),
               do
-                homeDir <- liftIO $ getHomeDirectory
-                date <- io $ liftM (formatTime defaultTimeLocale "[%Y-%m-%d %H:%M] ") getZonedTime
-                appendFilePrompt' def (date ++) $ (improvementsFile homeDir)
+                homeDir <- liftIO getHomeDirectory
+                date <- io $ fmap (formatTime defaultTimeLocale "[%Y-%m-%d %H:%M] ") getZonedTime
+                appendFilePrompt' def (date ++) $ improvementsFile homeDir
             ),
             ( (0, xK_t),
               do
-                homeDir <- liftIO $ getHomeDirectory
-                date <- io $ liftM (formatTime defaultTimeLocale "[%Y-%m-%d %H:%M] ") getZonedTime
-                appendFilePrompt' def (date ++) $ (thoughtsFile homeDir)
+                homeDir <- liftIO getHomeDirectory
+                date <- io $ fmap (formatTime defaultTimeLocale "[%Y-%m-%d %H:%M] ") getZonedTime
+                appendFilePrompt' def (date ++) $ thoughtsFile homeDir
             ),
             ( (modm, xK_t),
               do
-                homeDir <- liftIO $ getHomeDirectory
-                date <- io $ liftM (formatTime defaultTimeLocale "[%Y-%m-%d %H:%M] ") getZonedTime
-                appendFilePrompt' def (date ++) $ (thoughtsFile homeDir)
+                homeDir <- liftIO getHomeDirectory
+                date <- io $ fmap (formatTime defaultTimeLocale "[%Y-%m-%d %H:%M] ") getZonedTime
+                appendFilePrompt' def (date ++) $ thoughtsFile homeDir
             ),
             ( (0, xK_j),
               do
-                homeDir <- liftIO $ getHomeDirectory
-                date <- io $ liftM (formatTime defaultTimeLocale "[%Y-%m-%d %H:%M] ") getZonedTime
-                appendFilePrompt' def (date ++) $ (journalFile homeDir)
+                homeDir <- liftIO getHomeDirectory
+                date <- io $ fmap (formatTime defaultTimeLocale "[%Y-%m-%d %H:%M] ") getZonedTime
+                appendFilePrompt' def (date ++) $ journalFile homeDir
             ),
             ( (modm, xK_j),
               do
-                homeDir <- liftIO $ getHomeDirectory
-                date <- io $ liftM (formatTime defaultTimeLocale "[%Y-%m-%d %H:%M] ") getZonedTime
-                appendFilePrompt' def (date ++) $ (journalFile homeDir)
+                homeDir <- liftIO getHomeDirectory
+                date <- io $ fmap (formatTime defaultTimeLocale "[%Y-%m-%d %H:%M] ") getZonedTime
+                appendFilePrompt' def (date ++) $ journalFile homeDir
             ),
             ( (modm, xK_m),
               do
                 homeDir <- liftIO $ getHomeDirectory
-                date <- io $ liftM (formatTime defaultTimeLocale "[%Y-%m-%d %H:%M] ") getZonedTime
-                appendFilePrompt' def (date ++) $ (musicFile homeDir)
+                date <- io $ fmap (formatTime defaultTimeLocale "[%Y-%m-%d %H:%M] ") getZonedTime
+                appendFilePrompt' def (date ++) $ musicFile homeDir
             ),
             ((modm, xK_d), todoPrompt mPrompt)
           ]
@@ -459,7 +464,7 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
           ]
       ),
       ((modm .|. shiftMask, xK_q), kill),
-      ((modm .|. shiftMask, xK_e), io (exitWith ExitSuccess)), -- %! Quit xmonad
+      ((modm .|. shiftMask, xK_e), io exitSuccess), -- %! Quit xmonad
       ((modm, xK_i), onPrevNeighbour def W.view),
       ((modm, xK_x), swapNextScreen),
       ((modm, xK_z), spawn swapClipboards),
@@ -595,7 +600,7 @@ dbusOutput dbus str = do
   where
     replaceNext :: [(String, String)] -> String -> String
     replaceNext [] str = str
-    replaceNext (x:xs) str = replaceNext xs replaced
+    replaceNext (x : xs) str = replaceNext xs replaced
       where
         encoded = UTF8.encodeString (snd x)
         replaced = unpack $ replace (pack $ fst x) (pack $ encoded) (pack str)
@@ -640,7 +645,7 @@ main = do
     [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
 
   -- opts <- execParser opts
-  
+
   xmonad $
     docks $
       dynamicProjects projects $
@@ -653,7 +658,7 @@ main = do
               manageHook =
                 composeAll
                   [ manageDocks,
-                    (isFullscreen --> doFullFloat),
+                    isFullscreen --> doFullFloat,
                     manageHook def,
                     namedScratchpadManageHook scratchpads,
                     title =? "safeeyes" --> doFloat,
@@ -663,6 +668,8 @@ main = do
                     className =? workChatClass --> doShift (projectName (projectByName "workChat")),
                     className =? customMailClass --> doShift (projectName (projectByName "mail")),
                     className =? "Mail" --> doShift (projectName (projectByName "mail")),
+                    className =? "" --> doShift (projectName (projectByName "mail")),
+                    stringProperty "_NET_WM_NAME" =? "Form" --> doShift (projectName (projectByName "videoChat")),
                     stringProperty "WM_WINDOW_ROLE" =? "browser" --> doShift (projectName (projectByName "browser")),
                     resource =? customSmsTitle --> doShift (projectName (projectByName "sms"))
                   ],
@@ -693,7 +700,7 @@ main = do
                 onScreen' (switchProject $ projectByName "sms") FocusNew 0
                 onScreen' (switchProject $ projectByName "browser") FocusNew 0
                 onScreen' (switchProject $ projectByName "console") FocusNew 0,
-              handleExtraArgs = \ xs theConf -> case xs of
+              handleExtraArgs = \xs theConf -> case xs of
                 [] -> return theConf
                 _ -> return theConf
             }

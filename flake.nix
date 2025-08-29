@@ -60,10 +60,20 @@
             xmonad = final.haskell.lib.compose.justStaticExecutables final.haskellPackages.my-xmonad;
           };
           polybar = pkgs.callPackage ./polybar { inherit inputs utils; };
+          hspkgs = pkgs.haskellPackages;
         in
         {
           packages = {
             test = utils.consoleStartup;
+          };
+          devShell = hspkgs.shellFor {
+            withHoogle = true;
+            packages = p: [
+              pkgs.xmonad
+            ];
+            buildInputs = [
+              hspkgs.haskell-language-server
+            ];
           };
           defaultPackage =
             let
