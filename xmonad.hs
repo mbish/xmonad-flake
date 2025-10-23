@@ -65,6 +65,8 @@ data Options = Options
 
 modm :: KeyMask
 modm = mod4Mask -- Win key or Super_L
+altMask :: KeyMask
+altMask = mod1Mask -- Alt key
 -- myLayout = smartBorders . avoidStruts $ layoutHook defaultConfig $ mkToggle (NOBORDERS ?? FULL ?? EOT) $ tiled ||| Mirror tiled
 
 bg0 = "#282828"
@@ -292,6 +294,7 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
       ((modm, xK_c), switchProject $ projectByName "console"),
       ((modm, xK_l), switchProject $ projectByName "workChat"),
       ((modm, xK_2), switchProject $ projectByName "dev-2"),
+      ((modm, xK_n), switchProject $ projectByName "socialChat"),
       ((modm, xK_Left), sendMessage Shrink),
       ((modm, xK_Right), sendMessage Expand),
       ( (modm, xK_w),
@@ -324,6 +327,7 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
             ((modm, xK_m), switchProject $ projectByName "mail")
           ]
       ),
+      ((modm .|. altMask, xK_w), spawn windowSelect),
       ((modm, xK_bracketleft), spawn tmuxSessionSelect),
       ( (modm, xK_e),
         submap . M.fromList $
@@ -480,7 +484,7 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
       ((0, xK_Print), spawn screenShot),
       ((controlMask, xK_F1), spawn muteVolume),
       ((controlMask, xK_space), spawn notificationClose),
-      ((controlMask, xK_grave), spawn notificationHistory)
+      ((altMask, xK_space), spawn notificationHistory)
     ]
 
 keysToRemove :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
