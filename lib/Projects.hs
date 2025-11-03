@@ -106,3 +106,5 @@ screenShot = "flameshot gui"
 openClipboardURL = "xclip -o -selection primary | xargs -I '{}' google-chrome-stable {}"
 
 toggleNoise =  "toggle-noise"
+
+webexBrowser = browser ++ " --new-window --app=https://web.webex.com"

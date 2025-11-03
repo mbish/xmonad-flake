@@ -288,8 +288,7 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
       ((modm, xK_Return), spawn myTerminal),
       ((modm .|. controlMask, xK_x), shellPrompt myPrompt),
       ((modm, xK_bracketright), switchProjectPrompt myPrompt),
-      ((modm, xK_u), muxPrompt mPrompt),
-      ((modm .|. shiftMask, xK_bracketright), shiftToProjectPrompt myPrompt),
+      ((modm, xK_u), muxPrompt mPrompt), ((modm .|. shiftMask, xK_bracketright), shiftToProjectPrompt myPrompt),
       ((modm, xK_b), switchProject $ projectByName "browser"),
       ((modm, xK_c), switchProject $ projectByName "console"),
       ((modm, xK_l), switchProject $ projectByName "workChat"),
@@ -671,12 +670,15 @@ main = do
                     className =? socialChatClass --> doShift (projectName (projectByName "socialChat")),
                     className =? remoteAccessClass --> doShift (projectName (projectByName "remmina")),
                     className =? workChatClass --> doShift (projectName (projectByName "workChat")),
-                    className =? customMailClass --> doShift (projectName (projectByName "mail")),
+                    className =?  customMailClass --> doShift (projectName (projectByName "mail")),
                     className =? "Mail" --> doShift (projectName (projectByName "mail")),
-                    className =? "" --> doShift (projectName (projectByName "mail")),
+                    title =? "Identity" --> doShift (projectName (projectByName "videoChat")),
+                    resource =? "Webex" --> doShift (projectName (projectByName "workChat")),
+                    -- className =? "" --> doShift (projectName (projectByName "mail")),
                     stringProperty "_NET_WM_NAME" =? "Form" --> doShift (projectName (projectByName "videoChat")),
                     stringProperty "WM_WINDOW_ROLE" =? "browser" --> doShift (projectName (projectByName "browser")),
-                    resource =? customSmsTitle --> doShift (projectName (projectByName "sms"))
+                    resource =? customSmsTitle --> doShift (projectName (projectByName "sms")),
+                    stringProperty "WM_WINDOW_ROLE" =? "pop-up" <&&> resource =? "web.webex.com" --> doShift (projectName (projectByName "workChat"))
                   ],
               layoutHook = myLayout,
               logHook =
@@ -700,6 +702,7 @@ main = do
                 spawn setupScripts
                 spawn wifiApplet
                 spawn screenShotDaemon
+                spawn webexBrowser
                 -- for some reason this doesn't work. Using systemd service for now
                 -- spawn autolock
                 onScreen' (switchProject $ projectByName "sms") FocusNew 0
