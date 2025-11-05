@@ -53,6 +53,7 @@ import XMonad.Prompt.Shell
 import XMonad.StackSet qualified as W
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Paste as P
+import XMonad.Util.WindowProperties (getProp32)
 
 data Options = Options
   { configFile :: FilePath,
@@ -65,6 +66,7 @@ data Options = Options
 
 modm :: KeyMask
 modm = mod4Mask -- Win key or Super_L
+
 altMask :: KeyMask
 altMask = mod1Mask -- Alt key
 -- myLayout = smartBorders . avoidStruts $ layoutHook defaultConfig $ mkToggle (NOBORDERS ?? FULL ?? EOT) $ tiled ||| Mirror tiled
@@ -288,7 +290,8 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
       ((modm, xK_Return), spawn myTerminal),
       ((modm .|. controlMask, xK_x), shellPrompt myPrompt),
       ((modm, xK_bracketright), switchProjectPrompt myPrompt),
-      ((modm, xK_u), muxPrompt mPrompt), ((modm .|. shiftMask, xK_bracketright), shiftToProjectPrompt myPrompt),
+      ((modm, xK_u), muxPrompt mPrompt),
+      ((modm .|. shiftMask, xK_bracketright), shiftToProjectPrompt myPrompt),
       ((modm, xK_b), switchProject $ projectByName "browser"),
       ((modm, xK_c), switchProject $ projectByName "console"),
       ((modm, xK_l), switchProject $ projectByName "workChat"),
@@ -483,7 +486,8 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
       ((0, xK_Print), spawn screenShot),
       ((controlMask, xK_F1), spawn muteVolume),
       ((controlMask, xK_space), spawn notificationClose),
-      ((altMask, xK_space), spawn notificationHistory)
+      ((altMask, xK_space), spawn notificationHistory),
+      ((altMask .|. modm, xK_n), spawn toggleNoise)
     ]
 
 keysToRemove :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
@@ -667,18 +671,20 @@ main = do
                     namedScratchpadManageHook scratchpads,
                     title =? "safeeyes" --> doFloat,
                     title =? "main_console" --> hasBorder False,
-                    className =? socialChatClass --> doShift (projectName (projectByName "socialChat")),
-                    className =? remoteAccessClass --> doShift (projectName (projectByName "remmina")),
-                    className =? workChatClass --> doShift (projectName (projectByName "workChat")),
-                    className =?  customMailClass --> doShift (projectName (projectByName "mail")),
-                    className =? "Mail" --> doShift (projectName (projectByName "mail")),
-                    title =? "Identity" --> doShift (projectName (projectByName "videoChat")),
-                    resource =? "Webex" --> doShift (projectName (projectByName "workChat")),
+                    className =? socialChatClass --> moveTo "socialChat",
+                    className =? remoteAccessClass --> moveTo "remmina",
+                    className =? workChatClass --> moveTo "workChat",
+                    className =? customMailClass --> moveTo "mail",
+                    className =? "Mail" --> moveTo "mail",
+                    title =? "Identity" --> moveTo "videoChat",
+                    resource =? "Webex" --> moveTo "workChat",
                     -- className =? "" --> doShift (projectName (projectByName "mail")),
-                    stringProperty "_NET_WM_NAME" =? "Form" --> doShift (projectName (projectByName "videoChat")),
-                    stringProperty "WM_WINDOW_ROLE" =? "browser" --> doShift (projectName (projectByName "browser")),
-                    resource =? customSmsTitle --> doShift (projectName (projectByName "sms")),
-                    stringProperty "WM_WINDOW_ROLE" =? "pop-up" <&&> resource =? "web.webex.com" --> doShift (projectName (projectByName "workChat"))
+                    stringProperty "_NET_WM_NAME" =? "Form" --> moveTo "videoChat",
+                    stringProperty "WM_WINDOW_ROLE" =? "browser" --> moveTo "browser",
+                    resource =? customSmsTitle --> moveTo "sms",
+                    stringProperty "WM_WINDOW_ROLE" =? "pop-up" <&&> resource =? "web.webex.com" --> moveTo "workChat",
+                    hasNetWMState "_NET_WM_STATE_HIDDEN" --> doFloat,
+                    title =? " " --> moveTo "dev-2"
                   ],
               layoutHook = myLayout,
               logHook =
@@ -721,5 +727,19 @@ main = do
             <> progDesc "Xmonad launcher"
             <> header "Xmonad"
         )
+    -- \| Get the `_NET_WM_STATE` property as a list of atoms.
+    getNetWMState :: Window -> X [Atom]
+    getNetWMState w = do
+      atom <- getAtom "_NET_WM_STATE"
+      maybe [] (map fromIntegral) <$> getProp32 atom w
+
+    hasNetWMState :: String -> Query Bool
+    hasNetWMState state = do
+      window <- ask
+      wmstate <- liftX $ getNetWMState window
+      atom <- liftX $ getAtom state
+      return $ elem atom wmstate
+
+    moveTo s = doShift (projectName (projectByName s))
 
 myBorderWidth = 0
