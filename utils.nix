@@ -16,11 +16,7 @@ rec {
     '';
   kbdInit = pkgs.writeShellScriptBin "kbdInit" ''
     ${pkgs.xorg.xset}/bin/xset -b
-    ${pkgs.xorg.setxkbmap}/bin/setxkbmap -layout us -variant altgr-intl -option "lv3:bksl_switch"
     ${pkgs.xorg.xmodmap}/bin/xmodmap ${./xmodmap}
-    ${pkgs.procps}/bin/pkill -f xcape
-    # ${pkgs.xcape}/bin/xcape -e "ISO_Level3_Shift=backslash"
-    # ${pkgs.xcape}/bin/xcape -e "Control_L=return"
     ${pkgs.xbindkeys}/bin/xbindkeys -p &
   '';
   launchTerminal = pkgs.writeShellScriptBin "launchTerminal" ''
@@ -108,9 +104,6 @@ rec {
         LAYOUT="$1"
     fi
     ${pkgs.xorg.xmodmap}/bin/xmodmap ${./xmodmap}
-    ${pkgs.xorg.setxkbmap}/bin/setxkbmap -layout us -variant altgr-intl -option "lv3:bksl_switch"
-    ${pkgs.xorg.xmodmap}/bin/xmodmap ${./xmodmap}
-    ${pkgs.systemdMinimal}/bin/systemctl --user restart xcape &
   '';
   mic-status = pkgs.writeShellScriptBin "mic-status" ''
     MUTED=$(${pkgs.wireplumber}/bin/wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | grep "MUTED")
