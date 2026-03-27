@@ -299,6 +299,7 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
       ((modm, xK_n), switchProject $ projectByName "socialChat"),
       ((modm, xK_Left), sendMessage Shrink),
       ((modm, xK_Right), sendMessage Expand),
+      ((modm, xK_v), switchProject $ projectByName "videoChat"),
       ( (modm, xK_w),
         submap . M.fromList $
           [ ((0, xK_b), switchProject $ projectByName "virtualbox"),
