@@ -619,14 +619,6 @@ dbusOutput dbus str = do
     interfaceName = D.interfaceName_ "org.xmonad.Log"
     memberName = D.memberName_ "Update"
 
-activeLogHook :: PP
-activeLogHook = def {ppOutput = workspaceLogger}
-
-workspaceLogger :: String -> IO ()
-workspaceLogger str = do
-  localDir <- getXdgDirectory XdgState "activity.log"
-  appendFile localDir (str ++ "\n")
-
 configFileParser :: Parser FilePath
 configFileParser = strOption (long "inputFile" <> short 'i' <> help "Input file " <> metavar "FILE")
 
@@ -689,8 +681,7 @@ main = do
                   ],
               layoutHook = myLayout,
               logHook =
-                dynamicLogWithPP activeLogHook
-                  >> dynamicLogWithPP (myLogHook dbus)
+                  dynamicLogWithPP (myLogHook dbus)
                   >> updatePointer (0.5, 0.5) (0, 0)
                   >> workspaceHistoryHook,
               keys =
