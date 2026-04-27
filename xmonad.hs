@@ -27,6 +27,7 @@ import System.Exit
 import System.IO
 import XMonad
 import XMonad.Actions.Commands
+import XMonad.Actions.CycleRecentWS
 import XMonad.Actions.CycleWS
 import XMonad.Actions.DynamicProjects
 import XMonad.Actions.OnScreen
@@ -330,6 +331,7 @@ myKeys (XConfig {XMonad.modMask = modm}) = do
             ((modm, xK_m), switchProject $ projectByName "mail")
           ]
       ),
+      ((modm, xK_Tab), toggleRecentNonEmptyWS),
       ((modm .|. altMask, xK_w), spawn windowSelect),
       ((modm, xK_bracketleft), spawn tmuxSessionSelect),
       ( (modm, xK_e),
