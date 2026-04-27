@@ -1,12 +1,11 @@
 {
   pkgs,
-  inputs,
-  system,
   ...
 }:
 rec {
-  termBin = "${inputs.st.packages.${system}.default}/bin/st";
-  tmuxBin = "${inputs.tmux.packages.${system}.default}/bin/tmux";
+  system = pkgs.stdenv.hostPlatform.system;
+  termBin = "${pkgs.st}/bin/st";
+  tmuxBin = "${pkgs.tmux}/bin/tmux";
   toggle-redshift =
     let
       systemctl = "${pkgs.systemdMinimal}/bin/systemctl";

@@ -2,7 +2,7 @@
   description = "xmonad";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     flake-utils.url = "github:numtide/flake-utils";
     st = {
       url = "github:mbish/st-flake";
@@ -16,14 +16,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    zsh = {
-      url = "github:mbish/zsh-flake";
-      flake = true;
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
     nixgl = {
-      url = "github:guibou/nixGL";
+      url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
@@ -40,6 +34,8 @@
             overlays = [
               overlay
               inputs.nixgl.overlay
+              inputs.st.overlays.${system}.default
+              inputs.tmux.overlays.${system}.default
             ];
           };
           utils = pkgs.callPackage ./utils.nix {
@@ -62,7 +58,7 @@
           polybar = pkgs.callPackage ./polybar { inherit inputs utils; };
           hspkgs = pkgs.haskellPackages;
         in
-        {
+        rec {
           packages = {
             test = utils.consoleStartup;
           };
@@ -78,8 +74,8 @@
           defaultPackage =
             let
               packagesInExe = [
-                inputs.st.packages.${system}.default
-                inputs.tmux.packages.${system}.default
+                pkgs.st
+                pkgs.tmux
                 pkgs.findutils
                 pkgs.anki
                 pkgs.dunst
@@ -143,6 +139,9 @@
                 ];
               }
             );
+            overlays.default = final: prev: {
+              xmonad = defaultPackage;
+            };
         };
       systems = [
         "x86_64-linux"

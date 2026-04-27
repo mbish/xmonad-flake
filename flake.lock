@@ -1,28 +1,5 @@
 {
   "nodes": {
-    "atuinToFc": {
-      "inputs": {
-        "flake-utils": "flake-utils_2",
-        "gomod2nix": "gomod2nix",
-        "nixpkgs": [
-          "zsh",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1703110863,
-        "narHash": "sha256-AINFhQVsJyZST94h7fMukseFvBVC6vpYVuOg/aLNZNs=",
-        "owner": "mbish",
-        "repo": "atuin-to-fc",
-        "rev": "88adf2de611a6d130aff572c6d48b36526cd40fd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mbish",
-        "repo": "atuin-to-fc",
-        "type": "github"
-      }
-    },
     "base16-schemes": {
       "flake": false,
       "locked": {
@@ -57,51 +34,6 @@
         "type": "github"
       }
     },
-    "flake-utils_2": {
-      "inputs": {
-        "systems": "systems_2"
-      },
-      "locked": {
-        "lastModified": 1701680307,
-        "narHash": "sha256-kAuep2h5ajznlPMD9rnQyffWG8EM/C73lejGofXvdM8=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "4022d587cbbfd70fe950c1e2083a02621806a725",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "gomod2nix": {
-      "inputs": {
-        "flake-utils": [
-          "zsh",
-          "atuinToFc",
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "zsh",
-          "atuinToFc",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1701687253,
-        "narHash": "sha256-qJCMxIKWXonJODPF2oV7mCd0xu7VYVenTucrY0bizto=",
-        "owner": "nix-community",
-        "repo": "gomod2nix",
-        "rev": "001bbfa22e2adeb87c34c6015e5694e88721cabe",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "gomod2nix",
-        "type": "github"
-      }
-    },
     "nix-colors": {
       "inputs": {
         "base16-schemes": "base16-schemes",
@@ -131,31 +63,31 @@
         ]
       },
       "locked": {
-        "lastModified": 1752054764,
-        "narHash": "sha256-Ob/HuUhANoDs+nvYqyTKrkcPXf4ZgXoqMTQoCK0RFgQ=",
-        "owner": "guibou",
+        "lastModified": 1762090880,
+        "narHash": "sha256-fbRQzIGPkjZa83MowjbD2ALaJf9y6KMDdJBQMKFeY/8=",
+        "owner": "nix-community",
         "repo": "nixGL",
-        "rev": "a8e1ce7d49a149ed70df676785b07f63288f53c5",
+        "rev": "b6105297e6f0cd041670c3e8628394d4ee247ed5",
         "type": "github"
       },
       "original": {
-        "owner": "guibou",
+        "owner": "nix-community",
         "repo": "nixGL",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1754292888,
-        "narHash": "sha256-1ziydHSiDuSnaiPzCQh1mRFBsM2d2yRX9I+5OPGEmIE=",
+        "lastModified": 1777077449,
+        "narHash": "sha256-AIiMJiqvGrN4HyLEbKAoCSRRYn0rnlW5VbKNIMIYqm4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ce01daebf8489ba97bd1609d185ea276efdeb121",
+        "rev": "a4bf06618f0b5ee50f14ed8f0da77d34ecc19160",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-25.05",
+        "ref": "nixos-25.11",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -181,8 +113,7 @@
         "nixgl": "nixgl",
         "nixpkgs": "nixpkgs",
         "st": "st",
-        "tmux": "tmux",
-        "zsh": "zsh"
+        "tmux": "tmux"
       }
     },
     "st": {
@@ -196,11 +127,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1751766957,
-        "narHash": "sha256-TZ/XXXeSfp77aMImEWt32bzyyEnNYcfT2Y/C41OyY5Q=",
+        "lastModified": 1777269217,
+        "narHash": "sha256-lrxvj3Ma+8fUtDVCPLfmz4sthFHYCb7F0ANPPLKrVSU=",
         "owner": "mbish",
         "repo": "st-flake",
-        "rev": "10a5ad1d5749522c2db7de353bea08ce9ababcf0",
+        "rev": "140ede7c16cdf3f340f1b6cb52f6fa28c77884d4",
         "type": "github"
       },
       "original": {
@@ -210,21 +141,6 @@
       }
     },
     "systems": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
-      }
-    },
-    "systems_2": {
       "locked": {
         "lastModified": 1681028828,
         "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
@@ -249,57 +165,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1741788433,
-        "narHash": "sha256-Pj5CUSLOjEQ6T0GjCbcTp64ZENZiyHIVd/PmR4BTfzk=",
+        "lastModified": 1777270055,
+        "narHash": "sha256-9gLxFVO9punEXd8TTxlS2CrHXLB/8XuQK06jZ9TH+Lg=",
         "owner": "mbish",
         "repo": "tmux-flake",
-        "rev": "ac4f4d06a815d5a7f84f77111fc928e6adbade6d",
+        "rev": "eb4f9ec39b2e859bc15bd0f5aa61862ac1369315",
         "type": "github"
       },
       "original": {
         "owner": "mbish",
         "repo": "tmux-flake",
-        "type": "github"
-      }
-    },
-    "zsh": {
-      "inputs": {
-        "atuinToFc": "atuinToFc",
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "zsh-notify": "zsh-notify"
-      },
-      "locked": {
-        "lastModified": 1757344508,
-        "narHash": "sha256-6zNno/vlBnJbeed6Fpw/NLaF8FVXiRUpA8eMuIvCioQ=",
-        "owner": "mbish",
-        "repo": "zsh-flake",
-        "rev": "040e0ccff8d9d06d83673ba564018c966acb9197",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mbish",
-        "repo": "zsh-flake",
-        "type": "github"
-      }
-    },
-    "zsh-notify": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1682877959,
-        "narHash": "sha256-ovmnl+V1B7J/yav0ep4qVqlZOD3Ex8sfrkC92dXPLFI=",
-        "owner": "marzocchi",
-        "repo": "zsh-notify",
-        "rev": "9c1dac81a48ec85d742ebf236172b4d92aab2f3f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "marzocchi",
-        "repo": "zsh-notify",
         "type": "github"
       }
     }
