@@ -165,11 +165,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1777297099,
-        "narHash": "sha256-PkwkHRcXNRJUUF5XeH0Q0Qv82LDC/mVeJOAA6tZTx6c=",
+        "lastModified": 1777314023,
+        "narHash": "sha256-bwtSWyBnDh9YUaUYdQDq6OsckgfOJw0AU47mZU2q2XA=",
         "owner": "mbish",
         "repo": "tmux-flake",
-        "rev": "3b5aaedb0fbd1c1b931dad7aaedb820121b09967",
+        "rev": "9307e087a67f1770b0d9109130450ea021e2b845",
         "type": "github"
       },
       "original": {
