@@ -14,8 +14,8 @@ rec {
       (${systemctl} --user is-active redshift && ${systemctl} --user stop redshift) || (${systemctl} --user start redshift)
     '';
   kbdInit = pkgs.writeShellScriptBin "kbdInit" ''
-    ${pkgs.xorg.xset}/bin/xset -b
-    ${pkgs.xorg.xmodmap}/bin/xmodmap ${./xmodmap}
+    ${pkgs.xset}/bin/xset -b
+    ${pkgs.xmodmap}/bin/xmodmap ${./xmodmap}
     ${pkgs.xbindkeys}/bin/xbindkeys -p &
   '';
   launchTerminal = pkgs.writeShellScriptBin "launchTerminal" ''

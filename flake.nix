@@ -93,7 +93,7 @@
                 pkgs.thunderbird
                 pkgs.tmuxinator
                 pkgs.procps
-                pkgs.xorg.xbacklight
+                pkgs.xbacklight
                 utils.consoleStartup
                 utils.launchTerminal
                 utils.setupScripts

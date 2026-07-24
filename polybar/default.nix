@@ -70,7 +70,7 @@ in
 
     # launch polybar
     if [ ''${#@} -eq 0 ]; then
-      MONITORS=$(${pkgs.xorg.xrandr}/bin/xrandr --listactivemonitors|head -n1|cut -f2 -d' ')
+      MONITORS=$(${pkgs.xrandr}/bin/xrandr --listactivemonitors|head -n1|cut -f2 -d' ')
       if [ "$MONITORS" = "1" ]; then
           FONTCONFIG_FILE=${font_config} ${pkgs.polybarFull}/bin/polybar -c ${polybar-config} laptop &
       else
