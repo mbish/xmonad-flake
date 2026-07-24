@@ -105,7 +105,7 @@
                 utils.rofi
                 utils.keyboard-layout
                 utils.toggle-noise
-                pkgs.light
+                pkgs.brightnessctl
                 polybar
               ];
             in

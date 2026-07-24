@@ -32,14 +32,14 @@ rec {
   '';
   toggle-backlight =
     let
-      light = "${pkgs.light}/bin/light";
+      light = "${pkgs.brightnessctl}/bin/brightnessctl";
     in
     pkgs.writeShellScriptBin "toggle-backlight" ''
-      PERCENT=$(${light} -G)
-      if [ "$PERCENT" != "0.00" ]; then
-          ${light} -S 0
+      PERCENT=$(${light} get)
+      if [ "$PERCENT" != "0" ]; then
+          ${light} set 0
       else
-          ${light} -S 30
+          ${light} set 40%
       fi
     '';
   swap-clipboards =
